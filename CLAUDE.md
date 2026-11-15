@@ -75,7 +75,41 @@ two-button nav (no page-turn transition) — a shell-level concern, not
 specific to this section. Full list and acceptance checks in
 `docs/specs/phase-2-character-sheets.md`.
 
-Phase 3 (Character Wiki) starts next.
+Phase 3 (Character Wiki) — done. Wiki pages live alongside each entity's
+other files, per DESIGN.md's example — `characters/<slug>/<slug>.md`,
+and new `places/`, `factions/`, `items/` top-level folders, same shape.
+`wikiEntrySchema` (`.passthrough()`) validates five reserved front-matter
+fields and keeps everything else for the infobox, so a place's
+region/population and a character's kind/player share one schema. The id
+(`type:slug`) is the only place an entity's type lives, per architecture
+rule 3.
+
+`src/core/wiki` is the pure, fully unit-tested piece (parseLinks,
+buildWikiIndex, extractInfobox, slugify): `[[type:slug]]` /
+`[[type:slug|label]]` links resolve into backlinks, or — when the target
+doesn't exist — a collected broken link, never thrown. `createWikiEntry`
+is the first content *file* the app writes on the user's behalf (not
+app-state JSON), refusing a colliding type+slug rather than overwriting.
+The chokidar watcher now also handles "add" (not just "change"), which a
+brand-new entity needs and nothing before this phase did.
+
+`sample-campaign/` has one fictional entity per type (character, place,
+faction, item), cross-linked, plus one deliberately broken link.
+Verified live under xvfb against this phase's actual "done when" line:
+created a new character through the in-app form, confirmed it appeared
+in the wiki list and its outgoing link resolved immediately with no
+restart, then confirmed an existing page picked up the new entity under
+"Mentioned in" — links working both ways, live.
+
+**Still open, not blocking:** full markdown-to-HTML rendering is still
+phase 1's carried-over gap (only `[[links]]` are special-cased this
+phase); the "shared element" portrait transition from DESIGN.md's motion
+table isn't built (needs shell-level route support that doesn't exist
+yet); a cross-section "campaign health panel" doesn't exist — broken
+links surface inline on the page that has them for now. Full list and
+acceptance checks in `docs/specs/phase-3-character-wiki.md`.
+
+Phase 4 (Relationship Web) starts next.
 
 Update this line at the end of every phase. Phases, in order:
 
