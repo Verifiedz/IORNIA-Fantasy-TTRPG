@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
 import { IORNIA_CHANNELS } from "../preload/channels";
-import type { TrackingAction } from "../preload/api";
+import type { CreateWikiEntryInput, TrackingAction } from "../preload/api";
 import {
   getActiveCampaignPath,
   listCodexPages,
@@ -21,6 +21,7 @@ import {
   registerAssetProtocolHandler,
   registerAssetSchemePrivileges,
 } from "./assetProtocol";
+import { buildWikiIndexPayload, createWikiEntry } from "./wiki";
 import { getDefaultCampaignPath } from "./paths";
 import { watchCampaign } from "./watcher";
 
@@ -49,9 +50,9 @@ function createWindow(): BrowserWindow {
 }
 
 ipcMain.handle(IORNIA_CHANNELS.campaignOpen, async () => {
-  // Native folder picker lands with the Character Wiki/content-pack work;
-  // for now the app opens the default (sample or IORNIA_CAMPAIGN_PATH)
-  // folder at launch.
+  // No native folder picker yet — not committed to any phase in
+  // DESIGN.md's roadmap. The app opens the default (sample or
+  // IORNIA_CAMPAIGN_PATH) folder at launch.
   const activePath = getActiveCampaignPath();
   return activePath ? openCampaign(activePath) : null;
 });
@@ -85,6 +86,12 @@ ipcMain.handle(
   IORNIA_CHANNELS.charactersApplyTrackingAction,
   (_event, slug: string, action: TrackingAction) =>
     applyTrackingAction(slug, action),
+);
+
+ipcMain.handle(IORNIA_CHANNELS.wikiList, () => buildWikiIndexPayload());
+ipcMain.handle(
+  IORNIA_CHANNELS.wikiCreate,
+  (_event, input: CreateWikiEntryInput) => createWikiEntry(input),
 );
 
 void app.whenReady().then(async () => {

@@ -2,9 +2,12 @@ import type {
   CampaignOpenResult,
   CharacterFile,
   ContentFile,
+  CreateWikiEntryInput,
+  CreateWikiEntryResult,
   RulesTableFile,
   TrackingAction,
   TrackingActionResponse,
+  WikiIndexPayload,
 } from "../../preload/api";
 import type { SearchHit } from "../../core/search/buildIndex";
 
@@ -65,4 +68,18 @@ export function onCharacterChange(
   callback: (file: CharacterFile) => void,
 ): () => void {
   return window.iornia.characters.onChange(callback);
+}
+
+export function listWikiEntries(): Promise<WikiIndexPayload> {
+  return window.iornia.wiki.list();
+}
+
+export function createWikiEntry(
+  input: CreateWikiEntryInput,
+): Promise<CreateWikiEntryResult> {
+  return window.iornia.wiki.create(input);
+}
+
+export function onWikiChange(callback: () => void): () => void {
+  return window.iornia.wiki.onChange(callback);
 }

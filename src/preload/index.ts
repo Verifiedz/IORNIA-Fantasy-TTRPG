@@ -1,6 +1,12 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { IORNIA_CHANNELS } from "./channels";
-import type { CharacterFile, ContentFile, IorniaBridge, TrackingAction } from "./api";
+import type {
+  CharacterFile,
+  ContentFile,
+  CreateWikiEntryInput,
+  IorniaBridge,
+  TrackingAction,
+} from "./api";
 
 const api: IorniaBridge = {
   campaign: {
@@ -46,6 +52,17 @@ const api: IorniaBridge = {
       ipcRenderer.on(IORNIA_CHANNELS.charactersChanged, listener);
       return () =>
         ipcRenderer.removeListener(IORNIA_CHANNELS.charactersChanged, listener);
+    },
+  },
+  wiki: {
+    list: () => ipcRenderer.invoke(IORNIA_CHANNELS.wikiList),
+    create: (input: CreateWikiEntryInput) =>
+      ipcRenderer.invoke(IORNIA_CHANNELS.wikiCreate, input),
+    onChange: (callback) => {
+      const listener = (): void => callback();
+      ipcRenderer.on(IORNIA_CHANNELS.wikiChanged, listener);
+      return () =>
+        ipcRenderer.removeListener(IORNIA_CHANNELS.wikiChanged, listener);
     },
   },
 };

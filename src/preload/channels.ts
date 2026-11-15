@@ -13,4 +13,7 @@ export const IORNIA_CHANNELS = {
   charactersGet: "characters:get",
   charactersApplyTrackingAction: "characters:apply-tracking-action",
   charactersChanged: "characters:changed",
+  wikiList: "wiki:list",
+  wikiCreate: "wiki:create",
+  wikiChanged: "wiki:changed",
 } as const;

@@ -7,6 +7,7 @@ import {
   rebuildSearchIndex,
 } from "./campaign";
 import { characterSlugFromPath, isCharacterPath, readCharacter } from "./characters";
+import { isWikiPath } from "./wiki";
 import { IORNIA_CHANNELS } from "../preload/channels";
 
 const WATCHED_EXTENSIONS = new Set(["md", "yaml", "yml", "json"]);
@@ -17,7 +18,14 @@ export function watchCampaign(
 ): FSWatcher {
   const watcher = watch(campaignPath, { ignoreInitial: true });
 
+  // Both "change" (an existing file edited) and "add" (a brand new file or
+  // folder dropped in — e.g. a new wiki entry) need the same handling: the
+  // folder is the source of truth, so a new entity must appear without a
+  // restart, not just an edited one.
   watcher.on("change", (filePath: string) => {
+    void handleChange(campaignPath, filePath, window);
+  });
+  watcher.on("add", (filePath: string) => {
     void handleChange(campaignPath, filePath, window);
   });
 
@@ -42,6 +50,14 @@ async function handleChange(
   if (isCodexPath(relativePath)) {
     await rebuildSearchIndex();
     window.webContents.send(IORNIA_CHANNELS.codexChanged);
+    return;
+  }
+
+  // Checked before isCharacterPath: a character's own wiki page
+  // (characters/<slug>/<slug>.md) lives inside that broader prefix, but
+  // needs the wiki index rebuilt, not a characters:changed broadcast.
+  if (isWikiPath(relativePath)) {
+    window.webContents.send(IORNIA_CHANNELS.wikiChanged);
     return;
   }
 
