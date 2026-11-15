@@ -7,6 +7,7 @@ import type { ResetFromReserveOptions } from "../core/tracking/pools";
 import type { GainableCurrency } from "../core/tracking/metaCurrencies";
 import type { BrokenLink, WikiEntity } from "../core/wiki";
 import type { WikiEntityType } from "../core/schemas/wikiEntry";
+import type { RelationshipsFile } from "../core/schemas/relationshipEdge";
 
 export interface CampaignOpenResult {
   path: string;
@@ -105,6 +106,10 @@ export interface IorniaBridge {
   wiki: {
     list(): Promise<WikiIndexPayload>;
     create(input: CreateWikiEntryInput): Promise<CreateWikiEntryResult>;
+    onChange(callback: () => void): () => void;
+  };
+  relationships: {
+    get(): Promise<RelationshipsFile>;
     onChange(callback: () => void): () => void;
   };
 }

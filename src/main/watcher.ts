@@ -8,6 +8,7 @@ import {
 } from "./campaign";
 import { characterSlugFromPath, isCharacterPath, readCharacter } from "./characters";
 import { isWikiPath } from "./wiki";
+import { isRelationshipsPath } from "./relationships";
 import { IORNIA_CHANNELS } from "../preload/channels";
 
 const WATCHED_EXTENSIONS = new Set(["md", "yaml", "yml", "json"]);
@@ -58,6 +59,11 @@ async function handleChange(
   // needs the wiki index rebuilt, not a characters:changed broadcast.
   if (isWikiPath(relativePath)) {
     window.webContents.send(IORNIA_CHANNELS.wikiChanged);
+    return;
+  }
+
+  if (isRelationshipsPath(relativePath)) {
+    window.webContents.send(IORNIA_CHANNELS.relationshipsChanged);
     return;
   }
 

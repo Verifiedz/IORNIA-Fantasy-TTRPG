@@ -16,4 +16,6 @@ export const IORNIA_CHANNELS = {
   wikiList: "wiki:list",
   wikiCreate: "wiki:create",
   wikiChanged: "wiki:changed",
+  relationshipsGet: "relationships:get",
+  relationshipsChanged: "relationships:changed",
 } as const;

@@ -9,6 +9,7 @@ import type {
   TrackingActionResponse,
   WikiIndexPayload,
 } from "../../preload/api";
+import type { RelationshipsFile } from "../../core/schemas/relationshipEdge";
 import type { SearchHit } from "../../core/search/buildIndex";
 
 export function getContent(path: string): Promise<ContentFile | null> {
@@ -82,4 +83,12 @@ export function createWikiEntry(
 
 export function onWikiChange(callback: () => void): () => void {
   return window.iornia.wiki.onChange(callback);
+}
+
+export function getRelationships(): Promise<RelationshipsFile> {
+  return window.iornia.relationships.get();
+}
+
+export function onRelationshipsChange(callback: () => void): () => void {
+  return window.iornia.relationships.onChange(callback);
 }

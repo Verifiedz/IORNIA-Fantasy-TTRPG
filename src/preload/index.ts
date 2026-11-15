@@ -65,6 +65,15 @@ const api: IorniaBridge = {
         ipcRenderer.removeListener(IORNIA_CHANNELS.wikiChanged, listener);
     },
   },
+  relationships: {
+    get: () => ipcRenderer.invoke(IORNIA_CHANNELS.relationshipsGet),
+    onChange: (callback) => {
+      const listener = (): void => callback();
+      ipcRenderer.on(IORNIA_CHANNELS.relationshipsChanged, listener);
+      return () =>
+        ipcRenderer.removeListener(IORNIA_CHANNELS.relationshipsChanged, listener);
+    },
+  },
 };
 
 contextBridge.exposeInMainWorld("iornia", api);

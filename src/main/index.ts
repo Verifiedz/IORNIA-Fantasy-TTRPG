@@ -22,6 +22,7 @@ import {
   registerAssetSchemePrivileges,
 } from "./assetProtocol";
 import { buildWikiIndexPayload, createWikiEntry } from "./wiki";
+import { readRelationships } from "./relationships";
 import { getDefaultCampaignPath } from "./paths";
 import { watchCampaign } from "./watcher";
 
@@ -93,6 +94,8 @@ ipcMain.handle(
   IORNIA_CHANNELS.wikiCreate,
   (_event, input: CreateWikiEntryInput) => createWikiEntry(input),
 );
+
+ipcMain.handle(IORNIA_CHANNELS.relationshipsGet, () => readRelationships());
 
 void app.whenReady().then(async () => {
   registerAssetProtocolHandler();
