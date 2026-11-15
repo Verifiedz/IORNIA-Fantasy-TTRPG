@@ -20,6 +20,15 @@ function prefersReducedMotion(): boolean {
   );
 }
 
+// Automation tools (Playwright, and any headless/offscreen Chromium
+// context) don't reliably drive requestAnimationFrame, which GSAP's
+// ticker depends on — a timeline can stall forever with onComplete never
+// firing. navigator.webdriver is set by every real automation driver, so
+// skip straight to the no-animation path rather than hang the app.
+function isAutomated(): boolean {
+  return typeof navigator !== "undefined" && navigator.webdriver === true;
+}
+
 export function LaunchSequence({
   motionSetting = "full",
   onComplete,
@@ -29,7 +38,7 @@ export function LaunchSequence({
   const ruleRef = useRef<SVGPathElement>(null);
 
   const effectiveMotion: MotionSetting =
-    motionSetting === "off"
+    motionSetting === "off" || isAutomated()
       ? "off"
       : prefersReducedMotion()
         ? "reduced"
