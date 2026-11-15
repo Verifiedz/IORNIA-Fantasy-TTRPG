@@ -18,7 +18,28 @@ content pipeline with live reload, design tokens, animated wordmark launch,
 and AppImage/.deb installers are built and verified. The Windows NSIS
 installer has not been built (no Wine on the dev machine yet); build it
 once Wine is installed, and do a real Windows install/run check once there
-is Windows access. Phase 1 (Rules Codex) starts next.
+is Windows access.
+
+Phase 1 (Rules Codex) — done. House rules transcribed from
+`~/iornia-campaign-notes/HOUSE_RULES.md` into the real campaign folder at
+`~/iornia-campaign/rules/{data,codex}/` (7 YAML tables, 10 Markdown pages).
+`sample-campaign/rules/` keeps a small fictional subset for tests. Search
+(MiniSearch), the Codex home/page views, and the pinnable Combat Reference
+(first real use of Radix) are built and verified against both campaign
+folders. 16 ambiguities from the source carry through as visible
+`open-question`/`rework`/`placeholder` banners — none invented. Full list
+in `docs/specs/phase-1-rules-codex.md`.
+
+**Reminder, per the user's own request:** the Boost meter (units/gain per
+action undefined) and the Knockdown threshold (stated two conflicting ways)
+were explicitly parked, not settled — raise them again before relying on
+either in Phase 2's character-sheet tracking.
+
+Markdown codex pages currently render as plain preformatted text, not full
+HTML (no remark-to-HTML wiring yet) — headers/bold/blockquotes in the
+source show as literal characters. Low-risk follow-up, not done yet.
+
+Phase 2 (Character Sheets) starts next.
 
 Update this line at the end of every phase. Phases, in order:
 
