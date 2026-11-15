@@ -39,35 +39,43 @@ Markdown codex pages currently render as plain preformatted text, not full
 HTML (no remark-to-HTML wiring yet) — headers/bold/blockquotes in the
 source show as literal characters. Low-risk follow-up, not done yet.
 
-Phase 2 (Character Sheets) — functionally done, design/motion pass still
-open. The tracking state machine (`src/core/tracking`) is pure and fully
-unit-tested (62 tests): pool spend/gain/reset-from-reserve/long-rest/
-medical-treatment, HP/FP with bloodied/critical flags, Exceed, the five
-meta-currencies with their individual spend limits, and effects. The
-reset-from-Reserve house rule (DESIGN.md's "to confirm before phase 2")
-is resolved: allowed any time Reserve >= 25%, not gated on Essos hitting
-0 — confirmed with the user 2026-11-14, implemented as a named
-`resetRequiresEmptyEssos` option (default false) so flipping it later is
-a one-line change. The character content pipeline, the tracking-action
-bridge, and a new `iornia://` protocol for serving campaign images/PDFs
-to the sandboxed renderer are built and verified against
-`sample-campaign/characters/thistlewood/` (a fictional sample character —
-no real `.gcs` file or Salazar PDF has been supplied yet, so the GCS
-importer isn't built and DESIGN.md's "Salazar's sheet matches the PDF
-field for field" check is blocked pending that file, the same way
-Phase 0's Windows installer is blocked pending Wine/Windows access). A
-full spend → gain → reset-from-reserve → long-rest sequence was run in
-the built app under xvfb and survives a restart.
+Phase 2 (Character Sheets) — done. The tracking state machine
+(`src/core/tracking`) is pure and fully unit-tested (62 tests): pool
+spend/gain/reset-from-reserve/long-rest/medical-treatment, HP/FP with
+bloodied/critical flags, Exceed, the five meta-currencies with their
+individual spend limits, and effects. The reset-from-Reserve house rule
+(DESIGN.md's "to confirm before phase 2") is resolved: allowed any time
+Reserve >= 25%, not gated on Essos hitting 0 — confirmed with the user
+2026-11-14, implemented as a named `resetRequiresEmptyEssos` option
+(default false) so flipping it later is a one-line change. The character
+content pipeline, the tracking-action bridge, and a new `iornia://`
+protocol for serving campaign images/PDFs to the sandboxed renderer are
+built and verified against `sample-campaign/characters/thistlewood/` (a
+fictional sample character — no real `.gcs` file or Salazar PDF has been
+supplied yet, so the GCS importer isn't built and DESIGN.md's "Salazar's
+sheet matches the PDF field for field" check is blocked pending that
+file, the same way Phase 0's Windows installer is blocked pending
+Wine/Windows access).
 
-**Still open for this phase:** the pool vessels are static bars, not the
-animated vessels DESIGN.md calls the sheet's "visual centrepiece" — no
-GSAP wiring, no motion-setting handling yet. The shell has only a
-placeholder two-button nav (no page-turn transition). Full list and
-acceptance checks in `docs/specs/phase-2-character-sheets.md`.
+The design/motion pass is done too: the pool vessel and Exceed seals are
+real `renderer/design` components (`PoolVessel.tsx`, `ExceedSeals.tsx`),
+animating `transform`/`opacity` only via GSAP, honoring Full/Reduced/Off
+(`renderer/design/motion.ts`, also now used by `LaunchSequence`, which
+had its own copy of this logic before). The number updates instantly;
+the fill animation follows, per DESIGN.md.
 
-Phase 3 (Character Wiki) starts after the design/motion pass above, or
-sooner if you'd rather revisit it later alongside other sections' motion
-work.
+Verified live in the built app under xvfb: a full spend → gain →
+reset-from-reserve → long-rest sequence, overspend refusal, Exceed
+burn/new-encounter, the PDF view, and the pool vessel's animated
+`transform` all behave correctly and survive a restart. `npm run e2e`
+passes.
+
+**Still open, not blocking:** the shell has only a placeholder
+two-button nav (no page-turn transition) — a shell-level concern, not
+specific to this section. Full list and acceptance checks in
+`docs/specs/phase-2-character-sheets.md`.
+
+Phase 3 (Character Wiki) starts next.
 
 Update this line at the end of every phase. Phases, in order:
 
