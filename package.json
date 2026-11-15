@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "description": "Desktop companion app for the IORNIA tabletop campaign.",
+  "author": {
+    "name": "Wasim",
+    "email": "saadwasim1921@gmail.com"
+  },
   "type": "module",
   "main": "./out/main/index.js",
   "scripts": {
