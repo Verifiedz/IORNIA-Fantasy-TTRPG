@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("../fonts/cinzel-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel";
+  src: url("../fonts/cinzel-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cinzel Decorative";
+  src: url("../fonts/cinzel-decorative-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../fonts/eb-garamond-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../fonts/eb-garamond-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("../fonts/eb-garamond-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Display type: titles, headings, UI chrome. */
+  --font-display: "Cinzel", serif;
+  /* The wordmark only. */
+  --font-wordmark: "Cinzel Decorative", serif;
+  /* Reading type: body prose. */
+  --font-reading: "EB Garamond", serif;
+
+  --color-parchment: #ead9b8;
+  --color-parchment-dark: #cdb98c;
+  --color-ink: #1c1712;
+  --color-gold: #c9a24a;
+  --color-gold-bright: #e7c874;
+  --color-ember: #c6572f;
+  --color-ember-bright: #ea7a44;
+  --color-verdigris: #4f8a7a;
+  --color-blood: #7c1f22;
+  --color-night: #12162e;
+  --color-night-deep: #080a1a;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-night);
+  color: var(--color-parchment);
+  font-family: var(--font-reading);
+}
