@@ -3,30 +3,15 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+import { resolveMotion, type MotionSetting } from "../design/motion";
 
 gsap.registerPlugin(SplitText, DrawSVGPlugin);
 
-export type MotionSetting = "full" | "reduced" | "off";
+export type { MotionSetting };
 
 interface LaunchSequenceProps {
   motionSetting?: MotionSetting;
   onComplete: () => void;
-}
-
-function prefersReducedMotion(): boolean {
-  return (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches
-  );
-}
-
-// Automation tools (Playwright, and any headless/offscreen Chromium
-// context) don't reliably drive requestAnimationFrame, which GSAP's
-// ticker depends on — a timeline can stall forever with onComplete never
-// firing. navigator.webdriver is set by every real automation driver, so
-// skip straight to the no-animation path rather than hang the app.
-function isAutomated(): boolean {
-  return typeof navigator !== "undefined" && navigator.webdriver === true;
 }
 
 export function LaunchSequence({
@@ -37,12 +22,7 @@ export function LaunchSequence({
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ruleRef = useRef<SVGPathElement>(null);
 
-  const effectiveMotion: MotionSetting =
-    motionSetting === "off" || isAutomated()
-      ? "off"
-      : prefersReducedMotion()
-        ? "reduced"
-        : motionSetting;
+  const effectiveMotion = resolveMotion(motionSetting);
 
   useGSAP(
     () => {

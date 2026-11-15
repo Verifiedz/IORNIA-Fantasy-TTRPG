@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { isDepleted, vitalStatus } from "../../../core/tracking";
+import { PoolVessel } from "../../design/components/PoolVessel";
+import { ExceedSeals } from "../../design/components/ExceedSeals";
 import { useSheetsStore } from "./store";
-import { PoolBar } from "./PoolBar";
 import { EffectsPanel } from "./EffectsPanel";
 import { PdfView } from "./PdfView";
 
@@ -112,7 +113,7 @@ export function CharacterSheet({
                   <span className="text-gold">Essos</span>
                   <span>{tracking.essos}/100</span>
                 </div>
-                <PoolBar value={tracking.essos} />
+                <PoolVessel value={tracking.essos} />
                 <div className="mt-1 flex flex-wrap gap-1">
                   {SPEND_PRESETS.map((amount) => (
                     <button
@@ -149,7 +150,7 @@ export function CharacterSheet({
                   <span className="text-gold">Reserve</span>
                   <span>{tracking.reserve}/100</span>
                 </div>
-                <PoolBar value={tracking.reserve} depleted={depleted} />
+                <PoolVessel value={tracking.reserve} depleted={depleted} />
                 {depleted && (
                   <p className="mt-1 font-display uppercase tracking-wide text-blood">
                     Depleted — practically dead until treated
@@ -241,17 +242,10 @@ export function CharacterSheet({
                     New encounter
                   </button>
                 </div>
-                <div className="flex gap-2">
-                  {[0, 1, 2].map((i) => (
-                    <button
-                      key={i}
-                      onClick={() => void dispatch(slug, { type: "burnExceed" }).then(report)}
-                      disabled={tracking.exceed.used > i}
-                      title={tracking.exceed.used > i ? "Broken" : "Burn"}
-                      className={`h-6 w-6 rounded-full border-2 ${tracking.exceed.used > i ? "border-parchment-dark/40 bg-night-deep" : "border-gold bg-gold/30"}`}
-                    />
-                  ))}
-                </div>
+                <ExceedSeals
+                  used={tracking.exceed.used}
+                  onBurn={() => void dispatch(slug, { type: "burnExceed" }).then(report)}
+                />
               </div>
 
               <MetaCurrencies slug={slug} />
