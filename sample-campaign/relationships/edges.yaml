@@ -1,0 +1,20 @@
+# Placeholder sample content, used only to exercise the relationship
+# edge schema and filtering logic in tests. Not real campaign content.
+schema: 1
+edges:
+  - from: character:thistlewood
+    to: faction:ashbrand-company
+    type: ally
+    strength: 2
+    note: Left the company on good terms.
+    start: "1400-01-01"
+    end: "1401-06-01"
+  - from: character:thistlewood
+    to: item:ember-blade
+    type: debt
+    note: Taken, not given.
+  - from: faction:ashbrand-company
+    to: place:veyra
+    type: sworn
+    strength: 3
+    note: Sworn to defend the city's markets.
