@@ -109,7 +109,47 @@ yet); a cross-section "campaign health panel" doesn't exist — broken
 links surface inline on the page that has them for now. Full list and
 acceptance checks in `docs/specs/phase-3-character-wiki.md`.
 
-Phase 4 (Relationship Web) starts next.
+Phase 4 (Relationship Web) — done. `relationships/edges.yaml` is one
+hand-edited file (not one-per-entity, matching the Codex's rule-table
+pattern) — this phase doesn't build an in-app edge editor, per its own
+"done when" line ("editing edges.yaml redraws the web"). Edges are
+typed (kin/ally/rival/sworn/debt/secret) with an optional strength and
+note; date-range filtering uses a raw `asOf` date against each edge's
+optional start/end, deliberately not tied to named eras from
+`lore/eras.yaml` (phase 6 doesn't exist yet).
+
+`src/core/relationships` (filterEdges, buildGraphNodes) is pure and
+fully unit-tested. The graph renders with `@xyflow/react`; `d3-force`
+computes a static layout synchronously (no settling animation this
+phase). Character/place/item nodes are portrait medallions; faction
+nodes use a new `FactionCrest` design component (placeholder diamond +
+initials — no real crest art exists).
+
+This phase is also the first real use of architecture rule 4
+("cross-section navigation goes through the shell"): `App.tsx` holds the
+one id that crosses a section boundary when a graph node is clicked, and
+`WikiSection` picks it up via a lazy `useState` initializer rather than
+an effect, since the shell fully remounts each section on switch. Hit
+and fixed a real bug here — the first version used a derived-state
+effect whose comparison started already-equal on mount, so it silently
+never fired; clicking a node just landed on the wiki home instead of the
+target entity.
+
+Every wiki entity page now also shows a "Relationships" panel (a list,
+not a mini-graph — the dedicated section is where the graph lives),
+satisfying DESIGN.md's "every wiki page shows that entity's slice of the
+web."
+
+Verified live under xvfb: the sample graph renders with correct node
+shapes/edge labels, the type and centered-on filters narrow it
+correctly, and clicking a node opens that entity's wiki page.
+
+**Still open, not blocking:** the "camera move" motion transition and
+any force-settling animation aren't built — the graph renders at its
+final computed layout only. Full list and acceptance checks in
+`docs/specs/phase-4-relationship-web.md`.
+
+Phase 5 (World Map) starts next.
 
 Update this line at the end of every phase. Phases, in order:
 
