@@ -3,7 +3,10 @@ export interface WikiLink {
   label?: string;
 }
 
-const LINK_PATTERN = /\[\[([a-z]+:[a-z0-9-]+)(\|([^\]]+))?\]\]/g;
+// Exported so the renderer's prose-with-links component splits on the
+// exact same pattern used to build the index, instead of a second copy
+// that could drift.
+export const LINK_PATTERN = /\[\[([a-z]+:[a-z0-9-]+)(\|([^\]]+))?\]\]/g;
 
 // [[type:slug]] or [[type:slug|label]] — CLAUDE.md's content rule for
 // links in prose. Regex-based, not a markdown parse: full prose-to-HTML

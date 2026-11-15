@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { CodexSection } from "../sections/codex/CodexSection";
 import { SheetsSection } from "../sections/sheets/SheetsSection";
+import { WikiSection } from "../sections/wiki/WikiSection";
 
-type Section = "codex" | "sheets";
+type Section = "codex" | "sheets" | "wiki";
 
 // Minimal placeholder nav — the shell's real navigation (persistent
 // chrome, page-turn transitions between sections) is a later design-
@@ -25,9 +26,17 @@ export function App() {
         >
           Character Sheets
         </button>
+        <button
+          onClick={() => setSection("wiki")}
+          className={`font-display text-sm uppercase tracking-wide ${section === "wiki" ? "text-gold-bright" : "text-parchment-dark hover:text-gold"}`}
+        >
+          Character Wiki
+        </button>
       </nav>
       <div className="min-h-0 flex-1">
-        {section === "codex" ? <CodexSection /> : <SheetsSection />}
+        {section === "codex" && <CodexSection />}
+        {section === "sheets" && <SheetsSection />}
+        {section === "wiki" && <WikiSection />}
       </div>
     </div>
   );
