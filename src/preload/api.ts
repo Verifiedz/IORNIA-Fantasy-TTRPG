@@ -48,7 +48,10 @@ export type TrackingAction =
   | { type: "spendWildcardPoint"; amount?: number }
   | { type: "addEffect"; effect: Effect }
   | { type: "removeEffect"; name: string }
-  | { type: "tickEffects" };
+  | { type: "tickEffects" }
+  // Internal to the renderer's undo history: restores a prior, already-
+  // validated TrackingState verbatim. Never constructed from user input.
+  | { type: "restore"; state: TrackingState };
 
 export type TrackingActionResponse =
   | { ok: true; tracking: TrackingState; nearKarmaCap?: boolean }

@@ -10,7 +10,7 @@ export function CodexSection() {
   const [combatReferenceOpen, setCombatReferenceOpen] = useState(false);
 
   return (
-    <div className="flex h-screen min-h-0">
+    <div className="flex h-full min-h-0">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {view.kind === "home" ? (
           <CodexHome

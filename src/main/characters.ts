@@ -213,6 +213,10 @@ export async function applyTrackingAction(
       result = { ok: true, tracking: tracking.tickEffects(current) };
       break;
     }
+    case "restore": {
+      result = { ok: true, tracking: action.state };
+      break;
+    }
   }
 
   if (result.ok) {
