@@ -17,8 +17,14 @@ import {
   listCharacters,
   readCharacter,
 } from "./characters";
+import {
+  registerAssetProtocolHandler,
+  registerAssetSchemePrivileges,
+} from "./assetProtocol";
 import { getDefaultCampaignPath } from "./paths";
 import { watchCampaign } from "./watcher";
+
+registerAssetSchemePrivileges();
 
 function createWindow(): BrowserWindow {
   const window = new BrowserWindow({
@@ -82,6 +88,7 @@ ipcMain.handle(
 );
 
 void app.whenReady().then(async () => {
+  registerAssetProtocolHandler();
   const window = createWindow();
   const campaignPath = getDefaultCampaignPath();
   await openCampaign(campaignPath);
