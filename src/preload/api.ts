@@ -7,6 +7,7 @@ export interface ContentFile {
   path: string;
   schema: string;
   frontmatter: Record<string, unknown>;
+  body: string;
   raw: string;
 }
 

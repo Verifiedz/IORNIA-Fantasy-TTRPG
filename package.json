@@ -59,6 +59,12 @@
     "files": [
       "out/**/*"
     ],
+    "extraResources": [
+      {
+        "from": "sample-campaign",
+        "to": "sample-campaign"
+      }
+    ],
     "linux": {
       "target": [
         "AppImage",
