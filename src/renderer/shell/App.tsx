@@ -22,15 +22,23 @@ export function App() {
   }, []);
 
   return (
-    <main>
-      <h1>{campaignName ?? "IORNIA"}</h1>
+    <main className="min-h-screen bg-night px-10 py-8 text-parchment">
+      <h1 className="mb-6 font-display text-3xl text-gold-bright">
+        {campaignName ?? "IORNIA"}
+      </h1>
       {doc ? (
-        <article>
-          <h2>{String(doc.frontmatter.title)}</h2>
-          <p style={{ whiteSpace: "pre-wrap" }}>{doc.body}</p>
+        <article className="max-w-prose">
+          <h2 className="mb-3 font-display text-xl text-gold">
+            {String(doc.frontmatter.title)}
+          </h2>
+          <p className="whitespace-pre-wrap font-reading leading-relaxed">
+            {doc.body}
+          </p>
         </article>
       ) : (
-        <p>Loading campaign content…</p>
+        <p className="font-reading text-parchment-dark">
+          Loading campaign content…
+        </p>
       )}
     </main>
   );
