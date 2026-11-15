@@ -1,0 +1,14 @@
+schema: 1
+kind: maneuvers
+sections:
+  - id: maneuver-list
+    title: "Maneuver list (placeholder sample data)"
+    note: >-
+      This is placeholder sample content, used only to prove that the
+      Rules Codex can render a maneuver table from YAML. It is not real
+      campaign content.
+    columns: ["Maneuver", "Type", "Effect", "Move", "Defense"]
+    rows:
+      - ["Ready", "Preparation", "Ready or reload an item.", "Step", "Any"]
+      - ["Attack", "Attack", "Make a basic attack.", "Step", "Any"]
+      - ["Retreat", "Move", "Step back out of danger.", "Step", "Any"]

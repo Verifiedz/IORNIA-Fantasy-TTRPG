@@ -1,0 +1,13 @@
+schema: 1
+kind: conditions
+sections:
+  - id: sample-conditions
+    title: "Conditions (placeholder sample data)"
+    note: >-
+      This is placeholder sample content, used only to prove that the
+      Rules Codex can render a condition table from YAML. It is not real
+      campaign content.
+    columns: ["Condition", "Effect"]
+    rows:
+      - ["Winded", "Half Move until the end of your next turn."]
+      - ["Steadied", "No effect; marks that a character braced before acting."]
