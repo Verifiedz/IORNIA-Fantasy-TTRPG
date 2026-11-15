@@ -1,0 +1,60 @@
+# Placeholder sample content, used only to exercise the character sheet
+# schema and tracking logic in tests. Not real campaign content.
+schema: 1
+
+attributes:
+  st: 11
+  dx: 13
+  iq: 12
+  ht: 11
+
+secondaryCharacteristics:
+  will: 12
+  perception: 12
+  basicSpeed: 6.0
+  basicMove: 6
+  dodge: 9
+
+hp:
+  max: 11
+
+fp:
+  max: 11
+
+traits:
+  - name: Combat Reflexes
+    points: 15
+  - name: Code of Honor (Sample)
+    points: -5
+    note: Placeholder disadvantage for schema coverage.
+
+skills:
+  - name: Broadsword
+    level: 14
+    points: 8
+  - name: Fast-Draw (Sword)
+    level: 13
+    points: 1
+
+weapons:
+  - name: Longsword
+    damage: "1d+2 cut"
+    reach: "1"
+    parry: "11"
+  - name: Throwing Knife
+    damage: "1d-2 imp"
+    note: "Ranged, 6/9"
+
+equipment:
+  - name: Chainmail (DR 4)
+    quantity: 1
+  - name: Healing Potion
+    quantity: 2
+    note: Placeholder item, not a real house-rule consumable.
+
+pointTotals:
+  total: 150
+  attributes: 70
+  advantages: 25
+  disadvantages: -15
+  skills: 70

@@ -1,0 +1,19 @@
+# Placeholder sample content, used only to exercise the profile schema in
+# tests. Not real campaign content.
+schema: 1
+
+name: Thistlewood
+title: Wandering Blade (sample)
+player: Sample Player
+
+essosAffinities:
+  cultivation: 2
+  magic: 0
+  invocation: 1
+  awakened: 0
+  modulation: 0
+  transmission: 0
+
+inventoryNotes: >-
+  Placeholder inventory notes, used only to prove the field round-trips
+  through the schema.
