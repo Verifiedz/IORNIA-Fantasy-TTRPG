@@ -13,7 +13,12 @@ ask; do not silently pick one.
 
 ## Current status
 
-Phase 0 (Foundation) — not started.
+Phase 0 (Foundation) — done on Linux. Electron shell, typed preload bridge,
+content pipeline with live reload, design tokens, animated wordmark launch,
+and AppImage/.deb installers are built and verified. The Windows NSIS
+installer has not been built (no Wine on the dev machine yet); build it
+once Wine is installed, and do a real Windows install/run check once there
+is Windows access. Phase 1 (Rules Codex) starts next.
 
 Update this line at the end of every phase. Phases, in order:
 
