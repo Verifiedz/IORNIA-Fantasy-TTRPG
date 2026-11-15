@@ -17,6 +17,20 @@ const api: IorniaBridge = {
         ipcRenderer.removeListener(IORNIA_CHANNELS.contentChanged, listener);
     },
   },
+  codex: {
+    listPages: () => ipcRenderer.invoke(IORNIA_CHANNELS.codexListPages),
+    getPage: (path) => ipcRenderer.invoke(IORNIA_CHANNELS.codexGetPage, path),
+    listTables: () => ipcRenderer.invoke(IORNIA_CHANNELS.codexListTables),
+    getTable: (path) =>
+      ipcRenderer.invoke(IORNIA_CHANNELS.codexGetTable, path),
+    search: (query) => ipcRenderer.invoke(IORNIA_CHANNELS.codexSearch, query),
+    onChange: (callback) => {
+      const listener = (): void => callback();
+      ipcRenderer.on(IORNIA_CHANNELS.codexChanged, listener);
+      return () =>
+        ipcRenderer.removeListener(IORNIA_CHANNELS.codexChanged, listener);
+    },
+  },
 };
 
 contextBridge.exposeInMainWorld("iornia", api);

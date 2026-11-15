@@ -1,7 +1,11 @@
 import { watch, type FSWatcher } from "chokidar";
 import { relative } from "node:path";
 import type { BrowserWindow } from "electron";
-import { readContentFile } from "./campaign";
+import {
+  isCodexPath,
+  readContentFile,
+  rebuildSearchIndex,
+} from "./campaign";
 import { IORNIA_CHANNELS } from "../preload/channels";
 
 const WATCHED_EXTENSIONS = new Set(["md", "yaml", "yml"]);
@@ -13,22 +17,35 @@ export function watchCampaign(
   const watcher = watch(campaignPath, { ignoreInitial: true });
 
   watcher.on("change", (filePath: string) => {
-    const ext = filePath.split(".").pop()?.toLowerCase();
-    if (!ext || !WATCHED_EXTENSIONS.has(ext)) {
-      return;
-    }
-
-    const relativePath = relative(campaignPath, filePath);
-    if (relativePath === "campaign.yaml") {
-      return; // Phase 0 doesn't need live campaign.yaml reload beyond launch.
-    }
-
-    void readContentFile(relativePath).then((file) => {
-      if (file) {
-        window.webContents.send(IORNIA_CHANNELS.contentChanged, file);
-      }
-    });
+    void handleChange(campaignPath, filePath, window);
   });
 
   return watcher;
+}
+
+async function handleChange(
+  campaignPath: string,
+  filePath: string,
+  window: BrowserWindow,
+): Promise<void> {
+  const ext = filePath.split(".").pop()?.toLowerCase();
+  if (!ext || !WATCHED_EXTENSIONS.has(ext)) {
+    return;
+  }
+
+  const relativePath = relative(campaignPath, filePath);
+  if (relativePath === "campaign.yaml") {
+    return; // Phase 0 doesn't need live campaign.yaml reload beyond launch.
+  }
+
+  if (isCodexPath(relativePath)) {
+    await rebuildSearchIndex();
+    window.webContents.send(IORNIA_CHANNELS.codexChanged);
+    return;
+  }
+
+  const file = await readContentFile(relativePath);
+  if (file) {
+    window.webContents.send(IORNIA_CHANNELS.contentChanged, file);
+  }
 }

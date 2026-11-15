@@ -22,5 +22,5 @@
       "@sections/*": ["./src/renderer/sections/*"]
     }
   },
-  "include": ["src/renderer/**/*", "src/preload/api.ts"]
+  "include": ["src/renderer/**/*", "src/preload/api.ts", "src/core/**/*"]
 }

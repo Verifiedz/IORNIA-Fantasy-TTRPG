@@ -1,8 +1,17 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
 import { IORNIA_CHANNELS } from "../preload/channels";
-import { getActiveCampaignPath, openCampaign, readContentFile } from "./campaign";
-import { getSampleCampaignPath } from "./paths";
+import {
+  getActiveCampaignPath,
+  listCodexPages,
+  listRulesTables,
+  openCampaign,
+  readCodexPage,
+  readContentFile,
+  readRulesTable,
+  searchCodex,
+} from "./campaign";
+import { getDefaultCampaignPath } from "./paths";
 import { watchCampaign } from "./watcher";
 
 function createWindow(): BrowserWindow {
@@ -29,7 +38,8 @@ function createWindow(): BrowserWindow {
 
 ipcMain.handle(IORNIA_CHANNELS.campaignOpen, async () => {
   // Native folder picker lands with the Character Wiki/content-pack work;
-  // Phase 0 only needs the sample campaign opened at launch.
+  // for now the app opens the default (sample or IORNIA_CAMPAIGN_PATH)
+  // folder at launch.
   const activePath = getActiveCampaignPath();
   return activePath ? openCampaign(activePath) : null;
 });
@@ -43,9 +53,21 @@ ipcMain.handle(IORNIA_CHANNELS.contentGet, (_event, path: string) =>
   readContentFile(path),
 );
 
+ipcMain.handle(IORNIA_CHANNELS.codexListPages, () => listCodexPages());
+ipcMain.handle(IORNIA_CHANNELS.codexGetPage, (_event, path: string) =>
+  readCodexPage(path),
+);
+ipcMain.handle(IORNIA_CHANNELS.codexListTables, () => listRulesTables());
+ipcMain.handle(IORNIA_CHANNELS.codexGetTable, (_event, path: string) =>
+  readRulesTable(path),
+);
+ipcMain.handle(IORNIA_CHANNELS.codexSearch, (_event, query: string) =>
+  searchCodex(query),
+);
+
 void app.whenReady().then(async () => {
   const window = createWindow();
-  const campaignPath = getSampleCampaignPath();
+  const campaignPath = getDefaultCampaignPath();
   await openCampaign(campaignPath);
   watchCampaign(campaignPath, window);
 });
