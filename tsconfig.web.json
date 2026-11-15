@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["vite/client", "react", "react-dom"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "paths": {
+      "@core/*": ["./src/core/*"],
+      "@design/*": ["./src/renderer/design/*"],
+      "@shell/*": ["./src/renderer/shell/*"],
+      "@sections/*": ["./src/renderer/sections/*"]
+    }
+  },
+  "include": ["src/renderer/**/*", "src/preload/api.ts"]
+}
