@@ -9,4 +9,8 @@ export const IORNIA_CHANNELS = {
   codexGetTable: "codex:get-table",
   codexSearch: "codex:search",
   codexChanged: "codex:changed",
+  charactersList: "characters:list",
+  charactersGet: "characters:get",
+  charactersApplyTrackingAction: "characters:apply-tracking-action",
+  charactersChanged: "characters:changed",
 } as const;

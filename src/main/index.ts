@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
 import { IORNIA_CHANNELS } from "../preload/channels";
+import type { TrackingAction } from "../preload/api";
 import {
   getActiveCampaignPath,
   listCodexPages,
@@ -11,6 +12,11 @@ import {
   readRulesTable,
   searchCodex,
 } from "./campaign";
+import {
+  applyTrackingAction,
+  listCharacters,
+  readCharacter,
+} from "./characters";
 import { getDefaultCampaignPath } from "./paths";
 import { watchCampaign } from "./watcher";
 
@@ -63,6 +69,16 @@ ipcMain.handle(IORNIA_CHANNELS.codexGetTable, (_event, path: string) =>
 );
 ipcMain.handle(IORNIA_CHANNELS.codexSearch, (_event, query: string) =>
   searchCodex(query),
+);
+
+ipcMain.handle(IORNIA_CHANNELS.charactersList, () => listCharacters());
+ipcMain.handle(IORNIA_CHANNELS.charactersGet, (_event, slug: string) =>
+  readCharacter(slug),
+);
+ipcMain.handle(
+  IORNIA_CHANNELS.charactersApplyTrackingAction,
+  (_event, slug: string, action: TrackingAction) =>
+    applyTrackingAction(slug, action),
 );
 
 void app.whenReady().then(async () => {

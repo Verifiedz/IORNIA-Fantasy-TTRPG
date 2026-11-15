@@ -6,9 +6,10 @@ import {
   readContentFile,
   rebuildSearchIndex,
 } from "./campaign";
+import { characterSlugFromPath, isCharacterPath, readCharacter } from "./characters";
 import { IORNIA_CHANNELS } from "../preload/channels";
 
-const WATCHED_EXTENSIONS = new Set(["md", "yaml", "yml"]);
+const WATCHED_EXTENSIONS = new Set(["md", "yaml", "yml", "json"]);
 
 export function watchCampaign(
   campaignPath: string,
@@ -41,6 +42,14 @@ async function handleChange(
   if (isCodexPath(relativePath)) {
     await rebuildSearchIndex();
     window.webContents.send(IORNIA_CHANNELS.codexChanged);
+    return;
+  }
+
+  if (isCharacterPath(relativePath)) {
+    const slug = characterSlugFromPath(relativePath);
+    if (!slug) return;
+    const file = await readCharacter(slug);
+    window.webContents.send(IORNIA_CHANNELS.charactersChanged, file);
     return;
   }
 

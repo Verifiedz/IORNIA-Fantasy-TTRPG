@@ -1,7 +1,10 @@
 import type {
   CampaignOpenResult,
+  CharacterFile,
   ContentFile,
   RulesTableFile,
+  TrackingAction,
+  TrackingActionResponse,
 } from "../../preload/api";
 import type { SearchHit } from "../../core/search/buildIndex";
 
@@ -41,4 +44,25 @@ export function searchCodex(query: string): Promise<SearchHit[]> {
 
 export function onCodexChange(callback: () => void): () => void {
   return window.iornia.codex.onChange(callback);
+}
+
+export function listCharacters(): Promise<CharacterFile[]> {
+  return window.iornia.characters.list();
+}
+
+export function getCharacter(slug: string): Promise<CharacterFile | null> {
+  return window.iornia.characters.get(slug);
+}
+
+export function applyTrackingAction(
+  slug: string,
+  action: TrackingAction,
+): Promise<TrackingActionResponse | null> {
+  return window.iornia.characters.applyTrackingAction(slug, action);
+}
+
+export function onCharacterChange(
+  callback: (file: CharacterFile) => void,
+): () => void {
+  return window.iornia.characters.onChange(callback);
 }

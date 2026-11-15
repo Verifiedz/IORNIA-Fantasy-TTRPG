@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { IORNIA_CHANNELS } from "./channels";
-import type { ContentFile, IorniaBridge } from "./api";
+import type { CharacterFile, ContentFile, IorniaBridge, TrackingAction } from "./api";
 
 const api: IorniaBridge = {
   campaign: {
@@ -29,6 +29,23 @@ const api: IorniaBridge = {
       ipcRenderer.on(IORNIA_CHANNELS.codexChanged, listener);
       return () =>
         ipcRenderer.removeListener(IORNIA_CHANNELS.codexChanged, listener);
+    },
+  },
+  characters: {
+    list: () => ipcRenderer.invoke(IORNIA_CHANNELS.charactersList),
+    get: (slug) => ipcRenderer.invoke(IORNIA_CHANNELS.charactersGet, slug),
+    applyTrackingAction: (slug, action: TrackingAction) =>
+      ipcRenderer.invoke(
+        IORNIA_CHANNELS.charactersApplyTrackingAction,
+        slug,
+        action,
+      ),
+    onChange: (callback) => {
+      const listener = (_event: unknown, file: CharacterFile): void =>
+        callback(file);
+      ipcRenderer.on(IORNIA_CHANNELS.charactersChanged, listener);
+      return () =>
+        ipcRenderer.removeListener(IORNIA_CHANNELS.charactersChanged, listener);
     },
   },
 };
