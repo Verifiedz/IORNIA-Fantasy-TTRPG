@@ -4,6 +4,7 @@ import { entityType } from "../../../core/schemas/wikiEntry";
 import { InfoboxTable } from "../../design/components/InfoboxTable";
 import { TagChip } from "../../design/components/TagChip";
 import { WikiProse } from "./WikiProse";
+import { RelationshipsPanel } from "./RelationshipsPanel";
 
 export function WikiEntryPage({
   id,
@@ -80,6 +81,8 @@ export function WikiEntryPage({
               {broken.map((link) => link.to).join(", ")}
             </div>
           )}
+
+          <RelationshipsPanel id={id} entities={index.entities} onNavigate={onNavigate} />
 
           <div className="mt-6">
             <h2 className="font-display text-gold">Mentioned in</h2>
